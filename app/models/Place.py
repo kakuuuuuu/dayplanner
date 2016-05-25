@@ -9,6 +9,9 @@
 """
 from system.core.model import Model
 import re
+import urllib, json
+key = 'AIzaSyAAZ7JeUugECycKjDqmWJqzOWMApd7hj7k'
+
 
 class Place(Model):
     def __init__(self):
@@ -91,23 +94,27 @@ class Place(Model):
         print "This is", data
         return self.db.query_db(query, data)
 
-    def insert_meal(self, info):
-        query="INSERT INTO activities(type, duration, category, price, plan_id)VALUES(:type, :duration,  :category, :price, :plan_id)"
+    def search_meal(self, info):
+        url='https://maps.googleapis.com/maps/api/place/textsearch/json?query=Restaurants+near+'+info['location']+info['city']+info['category']+'&radius='+info['radius']+'&key='+key
+        print url
+        response = urllib.urlopen(url)
+        jsonRaw = response.read()
+        jsonData = json.loads(jsonRaw)
+        results = jsonData
+        return jsonData
+    def search_activity(self,info):
+        url='https://maps.googleapis.com/maps/api/place/textsearch/json?query='+info['location']+info['city']+info['category']+'&radius='+info['radius']+'&key='+key
+        response = urllib.urlopen(url)
+        jsonRaw = response.read()
+        jsonData = json.loads(jsonRaw)
+        results = jsonData
+        return jsonData
+    def add_activity(self, info):
+        query="INSERT INTO activities(type, address, category, plan_id)VALUES(:type, :address,  :category, :plan_id)"
         data={
         'type':info['type'],
-        'duration':info['duration'],
-        'category':info['category'],
-        'price':info['price'],
-        'plan_id':info['plan_id']
-        }
-        return self.db.query_db(query, data)
-
-    def insert_activity(self, info):
-        query="INSERT INTO activities(type, duration, category, plan_id)VALUES(:type, :duration,  :category, :plan_id)"
-        data={
-        'type':info['type'],
-        'duration':info['duration'],
-        'category':info['category'],
+        'address':info['address'],
+        'category':info['name'],
         'plan_id':info['plan_id']
         }
         return self.db.query_db(query, data)
@@ -123,16 +130,3 @@ class Place(Model):
     def get_trips(self):
         query="SELECT * FROM plans"
         return self.db.query_db(query)
-    
-
-
-
-
-
-
-
-
-
-
-
-

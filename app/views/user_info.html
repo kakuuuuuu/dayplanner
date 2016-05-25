@@ -14,14 +14,14 @@
     	<div id='planner_box' class="col-md-4 col-md-offset-2" class="active">
 	    	<h3>Plan your Day</h3>
 	    	<form action='/options' method='post'>
-	    		<label>Location:<br><input type="text" name="location"></label><br>
-	    		<label>Start-time:<br><input type="time" name="start_time" ></label><br>
-	    		<label>End-time:<br><input type="time" name="end_time" ></label><br>
-	    		<label>Start-location:<br><input type="text" name="start_location" ></label><br>
-	    		<label>Transportation:<br><select type="text" name="transportation" >
-	    			<option>Walk</option>
-	    			<option>Automobile</option>
-	    		</select></label><br>
+	    		<label>Location:</label><br><input type="text" name="location"><br>
+	    		<label>Start-time:</label><br><input type="time" name="start_time" ><br>
+	    		<label>End-time:</label><br><input type="time" name="end_time" ><br>
+	    		<label>Start-location:</label><br><input type="text" name="start_location" ><br>
+	    		<label>Transportation:</label><br><select type="text" name="transportation" >
+	    			<option value='2.5'>Walk</option>
+	    			<option value='50'>Automobile</option>
+	    		</select><br>
 	    		<input type="submit" value="Make a Plan">
 	    	</form>
 
@@ -33,7 +33,7 @@
         {%for trip in trips%}
     		  <a href='#'>{{trip['city']}}</a><br>
         {%endfor%}
-    
+
     	</div>
     </div>
 

@@ -5,7 +5,24 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src= 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
     <script>
+      var locations =[];
+      var coordinates = {};
+      $(document).ready(function(){
+        $('#mealform').submit(function(){
 
+          $.post('/meals', $(this).serialize(), function(res){
+            $('#results').html(res);
+          })
+          return false;
+        })
+        $('#activityform').submit(function(){
+
+          $.post('/activity', $(this).serialize(), function(res){
+            $('#results').html(res);
+          })
+          return false;
+        })
+      })
       // $(document).ready(function(){
       //   $('#activity').hide();
       //   // $("#table").hide();
@@ -31,6 +48,30 @@
       //   });
       // });
     </script>
+    <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      height: 60%;
+      width: 60%;
+    }
+    #floating-panel {
+      position: absolute;
+      top: 10px;
+      left: 25%;
+      z-index: 5;
+      background-color: #fff;
+      padding: 5px;
+      border: 1px solid #999;
+      text-align: center;
+      font-family: 'Roboto','sans-serif';
+      line-height: 30px;
+      padding-left: 10px;
+    }
+  </style>
   </head>
   <body>
   <div class="row">
@@ -46,7 +87,7 @@
    <div class="row">
      <div id= "meal" class="col-md-5 col-md-offset-1" class="active">
       <h4>What kind of food you like?</h4>
-       <form action='/meals' method='post'>
+       <form id='mealform' action='/meals' method='post'>
          <select name='meal'>
            <option>Chinese</option>
            <option>Korean</option>
@@ -69,7 +110,7 @@
      </div>
      <div id ="activity"class="col-md-5 col-md-offset-1" class="active">
       <h4>What kind of activity you want to do?</h4>
-       <form action='/activity' method='post'>
+       <form id='activityform' action='/activity' method='post'>
         <h6>Indoors</h6>
          <select name='activity'>
            <option>-</option>
@@ -91,18 +132,22 @@
        </form>
      </div>
    </div>
+   <div id='results' class='container'>
 
-   
+   </div>
+   <div id='map' class='container'>
+
+   </div>
    <div id="table" class="row">
      <div class="col-md-10 col-md-offset-1" class="active">
-        
+
      <table class="table table-bordered table-striped">
 
       <thead>
         <tr>
           <td>Category</td>
           <td>Your Preference</td>
-          <td>Time You wish to spend</td>
+          <td>Address</td>
           <td>In Case You dont Like</td>
         </tr>
       </thead>
@@ -112,9 +157,9 @@
             <tr>
               <td>{{activity['type']}}</td>
               <td>{{activity['category']}}</td>
-              <td>{{activity['duration']}}</td>
+              <td>{{activity['address']}}</td>
 
-              <td><form action='/delete/{{activity['id']}}' method='post'>
+              <td><form action='/delete/{{activity['id']}}' method='get'>
                     <input type="submit" value="delete">
                  </form>
               </td>

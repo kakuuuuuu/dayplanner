@@ -1,0 +1,82 @@
+<script>
+locations=[];
+var input = "{{session['city']}}"+"{{session['location']}}"
+        var url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+input.toString()+'&key={{key}}'
+        $.get(url, function(res){
+          coordinates ={lat: res.results[0].geometry.location.lat, lng: res.results[0].geometry.location.lng}
+        })
+        // we have to return false for it to be a single page application because without it jQuery's
+        // submit function will cause a refresh of the page which would defeat the point of AJAX
+</script>
+<div class='container col-md-7'>
+  <form action='/addactivity' method='post'>
+    <div class='form-group'>
+      <select id='selection' class='form-control' name='activity'>
+{% for result in data['results'] %}
+  {% if result %}
+    <option value = "{{result['name']}}+{{result['formatted_address']}}">
+      {{result['name']}}
+    </option>
+    <script>
+      var name = "{{result['name']}}";
+      var address = "{{result['formatted_address']}}";
+      var lat = "{{result['geometry']['location']['lat']}}";
+      var lng = "{{result['geometry']['location']['lng']}}";
+      var price = "{{result['price_level']}}";
+      var rating = "{{result['rating']}}";
+      var place = [name, address, lat, lng, price, rating];
+      console.log(place);
+      locations.push(place);
+    </script>
+  {% endif %}
+{% endfor %}
+      </select>
+    </div>
+    <div class='form-group'>
+      <input class='btn' type='submit' value='Choose Activity' />
+    </div>
+  </form>
+</div>
+<script>
+  function initMap(){
+    var map = new google.maps.Map(document.getElementById('map'),{
+      zoom: 8,
+      center: coordinates
+    });
+    var bounds = new google.maps.LatLngBounds();
+    var marker = new google.maps.Marker({
+      position:coordinates,
+      map:map,
+      title:'Current Location',
+      setCenter:coordinates,
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+    });
+    for(var i = 0; i<locations.length; i++){
+      var latlng = {lat: parseFloat(locations[i][2]), lng: parseFloat(locations[i][3])}
+      var dollars='';
+      var myinfowindow = new google.maps.InfoWindow({
+        content: '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">'+locations[i][0]+'</h1>'+
+      '<div id="bodyContent">'+ '<p><b>'+ locations[i][1] +'</b></p>' +'</div>'+
+      '</div>'
+    });
+      var marker = new google.maps.Marker({
+        position:latlng,
+        map: map,
+        title: locations[i][0],
+        setCenter: latlng,
+        infowindow: myinfowindow
+      });
+    bounds.extend(marker.getPosition());
+    map.fitBounds(bounds);
+    google.maps.event.addListener(marker,'click',function(){
+      this.infowindow.open(map,this);
+    });
+    }
+  }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap">
+    </script>
