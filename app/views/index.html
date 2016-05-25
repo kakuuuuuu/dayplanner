@@ -1,8 +1,144 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
-  </head>
-  <body>
-    The best place to start is the "WelcomeController.py" file in app/controllers.
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login and registration</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="static/css/font-awesome.min.css">
+		<link rel="stylesheet" href="static/css/form-elements.css">
+        <link rel="stylesheet" href="static/css/style.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+    </head>
+
+    <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+        <!-- Top content -->
+        <div class="top-content">
+
+            <div class="inner-bg">
+                <h2>Welcome!</h2>
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-sm-5">
+
+                            <div class="form-box">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Register</h3>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <form role="form" action="/create" method="post" class="registration-form">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-first-name">Name</label>
+                                            <input type="text" name="form-first-name" placeholder="First name..." class="form-first-name form-control" id="form-first-name">
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <label class="sr-only" for="form-last-name">Alias</label>
+                                            <input type="text" name="form-last-name" placeholder="Alias..." class="form-last-name form-control" id="form-last-name">
+                                        </div> -->
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-email">Email</label>
+                                            <input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-password">Password</label>
+                                            <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
+                                            <p>*Password should be at least 8 characters</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-conf-password">Confirm PW</label>
+                                            <input type="password" name="form-conf-password" placeholder="Password..." class="form-conf-password form-control" id="form-conf-password">
+                                        </div>
+
+                                        <button type="submit" class="btn">Register</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-1 middle-border"></div>
+                        <div class="col-sm-1"></div>
+
+
+                        <div class="col-sm-5">
+
+                            <div class="form-box">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Login</h3>
+                                    </div>
+
+                                </div>
+                                <div class="form-bottom">
+                                    <form role="form" action="/login" method="post" class="login-form">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-email">Email</label>
+                                            <input type="text" name="form-email" placeholder="Email..." class="form-email form-control" id="form-email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-password">Password</label>
+                                            <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
+                                        </div>
+                                        <button type="submit" class="btn">Login</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+
+    </body>
+
 </html>
