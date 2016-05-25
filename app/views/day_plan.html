@@ -1,0 +1,137 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src= 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script>
+
+      // $(document).ready(function(){
+      //   $('#activity').hide();
+      //   // $("#table").hide();
+      //   $('#meal').hide();
+
+      //   $('#add_activity').click(function(){
+      //     $("#activity").show();
+      //     return false;
+      //   });
+      //   $('#add_meal').click(function(){
+      //     $("#meal").show();
+      //     return false;
+      //   });
+      //   $('#submit_activity').click(function(){
+      //     $("#table").show();
+      //     $("#activity").hide();
+      //     return false;
+      //   });
+      //   $('#submit_meal').click(function(){
+      //     $("#table").show();
+      //     $("#meal").hide();
+          // return false;
+      //   });
+      // });
+    </script>
+  </head>
+  <body>
+  <div class="row">
+		<div class="col-md-7 col-md-offset-1" class="active">
+    		<h2>This is a beautiful day(weather widget)</h2>
+        <h3>What do you want to do today?</h3>
+        <form>
+          <input id ="add_meal" type="submit" value="Add a Meal">
+          <input id ="add_activity" type="submit" value="Add an Activity">
+        </form>
+    	</div>
+   </div>
+   <div class="row">
+     <div id= "meal" class="col-md-5 col-md-offset-1" class="active">
+      <h4>What kind of food you like?</h4>
+       <form action='/meals' method='post'>
+         <select name='meal'>
+           <option>Chinese</option>
+           <option>Korean</option>
+           <option>Indian</option>
+           <option>Ethiopian</option>
+           <option>French</option>
+           <option>American</option>
+           <option>Breakfast</option>
+         </select>
+         <select name='price'>
+           <option>$</option>
+           <option>$$</option>
+           <option>$$$</option>
+           <option>$$$$</option>
+         </select><br><br>
+         Or write your choice:<br><input type="text" name="meal_alt"><br>
+         <label>Duration:<br><input type="text" name="duration_meal"></label><br>
+         <input id="submit_meal" type="submit" value"Add a Meal">
+       </form>
+     </div>
+     <div id ="activity"class="col-md-5 col-md-offset-1" class="active">
+      <h4>What kind of activity you want to do?</h4>
+       <form action='/activity' method='post'>
+        <h6>Indoors</h6>
+         <select name='activity'>
+           <option>-</option>
+           <option>Museums</option>
+           <option>sports</option>
+         </select>
+         <h6>Outdoors</h6>
+          <select name='activity_alt'>
+             <option>-</option>
+             <option>Sight Seeing</option>
+             <option>Water activities</option>
+             <option>Trails</option>
+             <option>Parks</option>
+             <option>sports</option>
+         </select><br><br>
+         Or write your choice:<br><input type="text" name="activity_alt_alt"><br>
+         <label>Duration:<br><input type="text" name="duration_activity"></label><br>
+         <input id="submit_activity" type="submit" value"Add an Activity">
+       </form>
+     </div>
+   </div>
+
+   
+   <div id="table" class="row">
+     <div class="col-md-10 col-md-offset-1" class="active">
+        
+     <table class="table table-bordered table-striped">
+
+      <thead>
+        <tr>
+          <td>Category</td>
+          <td>Your Preference</td>
+          <td>Time You wish to spend</td>
+          <td>In Case You dont Like</td>
+        </tr>
+      </thead>
+
+      <tbody>
+          {%for activity in activity%}
+            <tr>
+              <td>{{activity['type']}}</td>
+              <td>{{activity['category']}}</td>
+              <td>{{activity['duration']}}</td>
+
+              <td><form action='/delete/{{activity['id']}}' method='post'>
+                    <input type="submit" value="delete">
+                 </form>
+              </td>
+            </tr>
+          {%endfor%}
+      </tbody>
+
+     </table>
+     <form action='/final_plan'>
+       <input type="submit" value="Plan Your Day" name="pyd">
+     </form>
+     </div>
+
+    </div>
+
+
+
+
+  </body>
+</html>
