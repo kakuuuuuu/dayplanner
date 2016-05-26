@@ -80,6 +80,9 @@ class Places(Controller):
             if session['id']!=user_id[0]['users_id']:
                 return redirect('/')
         start = self.models['Place'].get_activities(plan_id)
+        if len(start)<=0:
+            self.models['Place'].delete_plan(plan_id)
+            return redirect('/')
         city = start[0]['category']
         info={'location':city}
         weather_info=self.models['Place'].search_weather(info)

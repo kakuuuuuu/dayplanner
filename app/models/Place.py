@@ -108,12 +108,18 @@ class Place(Model):
         else:
             return user_id
     def starting_location(self,info,plan_id):
+        url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+info['start_location']+info['main_location']+'&key=AIzaSyAZ8ZZI5pB010-a960_c8TzSnurR98IR6k'
         query="INSERT INTO activities(type, address, category,plan_id) VALUES('Starting Point', :address, :category,:plan_id)"
-        data={'address':info['start_location'],'category':info['main_location'],'plan_id':plan_id}
-        self.db.query_db(query,data)
+
+        response = urllib.urlopen(url)
+        jsonRaw = response.read()
+        jsonData = json.loads(jsonRaw)
+        if len(jsonData)>0:
+            results = jsonData['results'][0]['formatted_address']
+            data={'address':results,'category':info['main_location'],'plan_id':plan_id}
+            self.db.query_db(query,data)
     def search_meal(self, info):
         url='https://maps.googleapis.com/maps/api/place/textsearch/json?query=Restaurants+near+'+info['location']+info['city']+info['category']+'&radius='+info['radius']+'&key='+key
-        print url
         response = urllib.urlopen(url)
         jsonRaw = response.read()
         jsonData = json.loads(jsonRaw)
