@@ -65,14 +65,14 @@ class Places(Controller):
         return self.load_view('final_plan.html', activity=activity, key=key, plan_id=plan_id)
 
     def create(self):
-
         info = {
              "name" : request.form['form-first-name'],
              "email": request.form['form-email'],
              "password":request.form['form-password'],
              "pw_confirmation" : request.form['form-conf-password']
         }
-        print "this is", info
+        if info['name']<2:
+            errors.append('Name must be longer than 2 characters')
 
         create_status = self.models['Place'].create_user(info)
         if create_status['status'] == True:
@@ -84,7 +84,7 @@ class Places(Controller):
             for message in create_status['errors']:
                 flash(message, 'regis_errors')
 
-            return redirect('/')
+            return redirect('/start')
 
     def login(self):
 
@@ -105,7 +105,7 @@ class Places(Controller):
 
             for message in create_status['errors']:
                 flash(message, 'regis_errors')
-            return redirect('/')
+            return redirect('/start')
     def logout(self):
         if 'id' in session:
             session['id']=None

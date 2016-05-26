@@ -11,7 +11,7 @@ from system.core.model import Model
 import re
 import urllib, json
 key = 'AIzaSyAAZ7JeUugECycKjDqmWJqzOWMApd7hj7k'
-
+EMAIL_REGEX = re.compile(r'^[a-za-z0-9\.\+_-]+@[a-za-z0-9\._-]+\.[a-za-z]*$')
 
 class Place(Model):
     def __init__(self):
@@ -20,7 +20,7 @@ class Place(Model):
     def create_user(self, info):
         # We write our validations in model functions.
         # They will look similar to those we wrote in Flask
-        EMAIL_REGEX = re.compile(r'^[a-za-z0-9\.\+_-]+@[a-za-z0-9\._-]+\.[a-za-z]*$')
+
         errors = []
         # Some basic validation
         if not info['name']:
@@ -39,6 +39,11 @@ class Place(Model):
             errors.append('Password must be at least 8 characters long')
         elif info['password'] != info['pw_confirmation']:
             errors.append('Password and confirmation must match!')
+        query = "SELECT email FROM users WHERE email=:email"
+        data= {'email':info['email']}
+        check = self.db.query_db(query,data)
+        if len(check)>0:
+            errors.append('Account already exists with this email')
         # If we hit errors, return them, else return True.
         if errors:
 
