@@ -4,9 +4,15 @@
     <td>{{activity['category']}}</td>
     <td>{{activity['address']}}</td>
 
-    <td><form action='/delete/{{activity['id']}}' method='get'>
-          <input type="submit" value="delete">
+    {% if act != activity[0] %}
+    <td><form action='/delete/{{activity['id']}}/{{plan_id}}' method='get'>
+          <input class='btn btn-warning' type="submit" value="delete">
        </form>
     </td>
+    {% else %}
+    <td>
+
+    </td>
+    {% endif %}
   </tr>
 {%endfor%}
