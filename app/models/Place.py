@@ -11,6 +11,7 @@ from system.core.model import Model
 import re
 import urllib, json
 key = 'AIzaSyAAZ7JeUugECycKjDqmWJqzOWMApd7hj7k'
+key2= '47521c561e87f14aedc9be6469d7968c'
 EMAIL_REGEX = re.compile(r'^[a-za-z0-9\.\+_-]+@[a-za-z0-9\._-]+\.[a-za-z]*$')
 
 class Place(Model):
@@ -153,3 +154,11 @@ class Place(Model):
         query="SELECT * FROM plans WHERE users_id=:id"
         data ={'id':user_id}
         return self.db.query_db(query, data)
+    def search_weather(self, info):
+        url='http://api.openweathermap.org/data/2.5/weather?q='+info['location']+'&APPID='+key2
+        print "WETHAER URL IS",url
+        response = urllib.urlopen(url)
+        jsonRaw = response.read()
+        jsonData = json.loads(jsonRaw)
+        results = jsonData
+        return jsonData

@@ -50,6 +50,9 @@
       // });
     </script>
     <style>
+    nav{
+      background-color: #526578;
+    }
     html, body {
       height: 100%;
       margin: 0;
@@ -72,27 +75,57 @@
       line-height: 30px;
       padding-left: 10px;
     }
+    #weather{
+      background-image: url({{img}});
+      background-size: cover;
+    }
+    .white{
+      color: white;
+    }
+    #transbox{
+      background-color: #ffffff;
+      opacity: 0.6;
+      filter: alpha(opacity=60);
+    }
+    .notrans{
+      font-weight: bold;
+      color: #000000;
+    }
   </style>
   </head>
   <body>
     <nav id='nav' class='navbar navbar-static-top navbar-light bg-faded'>
-      <a id='logo' class='navbar-brand bebas' href='#'>Trails</a>
+      <a id='logo' class='navbar-brand bebas white' href='#'>Trails</a>
       <ul class="nav navbar-nav pull-right">
         <li class="active"><a class='white' href="/user_info"><span class='glyphicon glyphicon-home'></span> Home</a></li>
         <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
       </ul>
     </nav>
   <div class="row">
-		<div class="col-md-7 col-md-offset-1" class="active">
-    		<h2>This is a beautiful day(weather widget)</h2>
-        <h3>What do you want to do today?</h3>
+		<div id='weather' class="jumbotron text-center" class="active">
+      <div id='transbox' class='container'>
+
+      <h2 class='white notrans' >Weather description: {{weather_info['weather'][0]['description']}}</h2>
+      <h2 class='white notrans'>Approximate Temperature: {{temp}} F&#176;</h2>
+       {% with messages = get_flashed_messages() %}
+           {% if messages %}
+                   <p>{{message}}</p>
+           {% endif %}
+       {% endwith %}
+
+     </div>
+
     	</div>
    </div>
    <div class="row">
+     <div class='container'>
+       <h3>What do you want to do today?</h3>
+     </div>
      <div id= "meal" class="col-md-5 col-md-offset-1" class="active">
       <h4>Looking for food?</h4>
        <form id='mealform' action='/meals' method='post'>
          <select name='meal'>
+           <option>-</option>
            <option>Chinese</option>
            <option>Korean</option>
            <option>Indian</option>

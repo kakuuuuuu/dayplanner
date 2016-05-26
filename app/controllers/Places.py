@@ -3,6 +3,7 @@ from system.core.controller import *
 from flask import url_for
 
 key = 'AIzaSyAZ8ZZI5pB010-a960_c8TzSnurR98IR6k'
+key2='47521c561e87f14aedc9be6469d7968c'
 class Places(Controller):
     def __init__(self, action):
         super(Places, self).__init__(action)
@@ -47,10 +48,27 @@ class Places(Controller):
         else:
             if session['id']!=user_id[0]['users_id']:
                 return redirect('/')
-        # if session['id']!=user_id[0]['users_id']:
-        #     return redirect('/user_info')
+        start = self.models['Place'].get_activities(plan_id)
+        city = start[0]['category']
+        info={'location':city}
+        weather_info=self.models['Place'].search_weather(info)
+        temp=round((1.8*(weather_info['main']['temp']-273)+32))
+        if temp<40:
+           flash('Its too cold')
+           img="/static/images/cold.png"
+        elif temp>85:
+           flash("Its too hot")
+           img="/static/images/hot.png"
+        else:
+           flash('Awsome weather')
+           img="/static/images/awsome.jpeg"
+        description=weather_info['weather'][0]['description']
+        rain="rain"
+        if rain in description:
+           flash('It might rain')
+           img='/static/images/rain.jpg'
         activity=self.models['Place'].get_activities(plan_id)
-        return self.load_view('day_plan.html', activity=activity, key=key, plan_id=plan_id)
+        return self.load_view('day_plan.html', activity=activity, key=key, plan_id=plan_id, weather_info=weather_info, temp=temp, img=img)
 
     def final_plan(self,plan_id):
         if session['id']==None:
@@ -61,8 +79,27 @@ class Places(Controller):
         else:
             if session['id']!=user_id[0]['users_id']:
                 return redirect('/')
+        start = self.models['Place'].get_activities(plan_id)
+        city = start[0]['category']
+        info={'location':city}
+        weather_info=self.models['Place'].search_weather(info)
+        temp=round((1.8*(weather_info['main']['temp']-273)+32))
+        if temp<40:
+           flash('Its too cold')
+           img="/static/images/cold.png"
+        elif temp>85:
+           flash("Its too hot")
+           img="/static/images/hot.png"
+        else:
+           flash('Awsome weather')
+           img="/static/images/awsome.jpeg"
+        description=weather_info['weather'][0]['description']
+        rain="rain"
+        if rain in description:
+           flash('It might rain')
+           img='/static/images/rain.jpg'
         activity=self.models['Place'].get_activities(plan_id)
-        return self.load_view('final_plan.html', activity=activity, key=key, plan_id=plan_id)
+        return self.load_view('final_plan.html', activity=activity, key=key, plan_id=plan_id,  weather_info=weather_info, temp=temp, img=img)
 
     def create(self):
         info = {
@@ -143,13 +180,13 @@ class Places(Controller):
 
     def meals(self):
         print "day_plan is going on"
-        if request.form['meal_alt']:
+        if request.form['meal'] == '-':
             meal = request.form['meal_alt']
         else:
             meal = request.form['meal']
 
         infos={
-            'type':'meal',
+            'type':'Food',
             'category':meal,
             'price':request.form['price'],
             'duration':request.form['duration_meal'],
@@ -172,7 +209,7 @@ class Places(Controller):
             activity = request.form['activity_alt_alt']
 
         activity_info={
-            'type':'activity',
+            'type':'Activity',
             'category':activity,
             'duration':request.form['duration_activity'],
             'plan_id':session['plan_id'],

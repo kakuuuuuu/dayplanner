@@ -41,11 +41,24 @@
           width: auto;
         }
       }
+      #weather{
+        background-image: url({{img}});
+        background-size: cover;
+      }
+      #transbox{
+        background-color: #ffffff;
+        opacity: 0.6;
+        filter: alpha(opacity=60);
+      }
+      .notrans{
+        font-weight: bold;
+        color: #000000;
+      }
     </style>
   </head>
   <body>
     <nav id='nav' class='navbar navbar-static-top navbar-light bg-faded'>
-      <a id='logo' class='navbar-brand bebas white' href='#'>Trails</a>
+      <a id='logo' class='navbar-brand bebas white' href='#'>Day Out</a>
       <ul class="nav navbar-nav pull-right">
         <li class="active"><a class='white' href="/user_info"><span class='glyphicon glyphicon-home'></span> Home</a></li>
         <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
@@ -53,6 +66,22 @@
         <li><a class='white' href="/user_info"><span class='glyphicon glyphicon-arrow-left'></span> Go Back</a></li>
       </ul>
     </nav>
+    <div class="row">
+  		<div id='weather' class="jumbotron text-center" class="active">
+        <div id='transbox' class='container'>
+
+        <h2 class='white notrans' >Weather description: {{weather_info['weather'][0]['description']}}</h2>
+        <h2 class='white notrans'>Approximate Temperature: {{temp}} F&#176;</h2>
+         {% with messages = get_flashed_messages() %}
+             {% if messages %}
+                     <p>{{message}}</p>
+             {% endif %}
+         {% endwith %}
+
+       </div>
+
+      	</div>
+     </div>
     <div class='container'>
 
 
@@ -83,13 +112,20 @@
       </tbody>
 
      </table>
-     <form action='/day_plan/{{plan_id}}' method='get'>
-        <input class='btn btn-warning' type='submit' value='Edit' />  <span class='glyphicon glyphicon-pencil'></span>
-     </form>
-     <button class='btn btn-danger' id ='delete'>Delete</button />  <span class='glyphicon glyphicon-remove'></span>
-     <form id='deletebutton' action='/deleteplan/{{plan_id}}' method='get'>
-       <input class='btn' type='submit' value='Are you sure?' />
-     </form>
+     <div class='container'>
+       <div class='container col-md-2'>
+         <form action='/day_plan/{{plan_id}}' method='get'>
+            <input class='btn btn-warning' type='submit' value='Edit'>  <span class='glyphicon glyphicon-pencil'></span>
+         </form>
+       </div>
+       <div class='container col-md-2'>
+         <button class='btn btn-danger' id ='delete'>Delete</button />  <span class='glyphicon glyphicon-remove'></span>
+         <form id='deletebutton' action='/deleteplan/{{plan_id}}' method='get'>
+           <input class='btn' type='submit' value='Are you sure?' />
+         </form>
+       </div>
+     </div>
+
      <h3>In case you need directions...</h3>
 
 
