@@ -242,7 +242,7 @@ class Places(Controller):
         }
         self.models['Place'].add_activity(info)
         activity=self.models['Place'].get_activities(plan_id)
-        return self.load_view('partials/activities.html', activity=activity)
+        return self.load_view('partials/activities.html', activity=activity, plan_id=plan_id)
     def delete(self, id, plan_id):
         info={'id':id}
         delete=self.models['Place'].delete_activity(info)

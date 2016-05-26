@@ -199,7 +199,7 @@
             <td>{{act['category']}}</td>
             <td>{{act['address']}}</td>
             {% if act != activity[0] %}
-            <td><form action='/delete/{{activity['id']}}/{{plan_id}}' method='get'>
+            <td><form action='/delete/{{act["id"]}}/{{plan_id}}' method='get'>
                   <input class='btn btn-warning' type="submit" value="delete">
                </form>
             </td>
