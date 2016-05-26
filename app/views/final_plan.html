@@ -70,7 +70,7 @@
   		<div id='weather' class="jumbotron text-center" class="active">
         <div id='transbox' class='container'>
 
-        <h2 class='white notrans' >Weather description: {{weather_info['weather'][0]['description']}}</h2>
+        <h2 class='white notrans' >Forecast: {{weather_info['weather'][0]['description']}}</h2>
         <h2 class='white notrans'>Approximate Temperature: {{temp}} F&#176;</h2>
          {% with messages = get_flashed_messages() %}
              {% if messages %}
