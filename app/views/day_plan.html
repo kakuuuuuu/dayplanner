@@ -78,7 +78,7 @@
     <nav id='nav' class='navbar navbar-static-top navbar-light bg-faded'>
       <a id='logo' class='navbar-brand bebas' href='#'>Trails</a>
       <ul class="nav navbar-nav pull-right">
-        <li class="active"><a class='white' href="#"><span class='glyphicon glyphicon-home'></span> Home</a></li>
+        <li class="active"><a class='white' href="/user_info"><span class='glyphicon glyphicon-home'></span> Home</a></li>
         <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
       </ul>
     </nav>
@@ -90,7 +90,7 @@
    </div>
    <div class="row">
      <div id= "meal" class="col-md-5 col-md-offset-1" class="active">
-      <h4>What kind of food you like?</h4>
+      <h4>Looking for food?</h4>
        <form id='mealform' action='/meals' method='post'>
          <select name='meal'>
            <option>Chinese</option>
@@ -109,11 +109,11 @@
          </select><br><br>
          Or write your choice:<br><input type="text" name="meal_alt"><br>
          <label>Duration:<br><input type="text" name="duration_meal"></label><br>
-         <input id="submit_meal" class='btn' type="submit" value"Add a Meal">
+         <input id="submit_meal" class='btn btn-info' type="submit" value="Search">
        </form>
      </div>
      <div id ="activity"class="col-md-5 col-md-offset-1" class="active">
-      <h4>What kind of activity you want to do?</h4>
+      <h4>Looking for something to do?</h4>
        <form id='activityform' action='/activity' method='post'>
         <h6>Indoors</h6>
          <select name='activity'>
@@ -132,7 +132,7 @@
          </select><br><br>
          Or write your choice:<br><input type="text" name="activity_alt_alt"><br>
          <label>Duration:<br><input type="text" name="duration_activity"></label><br>
-         <input id="submit_activity" class='btn' type="submit" value"Add an Activity">
+         <input id="submit_activity" class='btn btn-info' type="submit" value="Search">
        </form>
      </div>
    </div>
@@ -164,12 +164,12 @@
             <td>{{act['address']}}</td>
             {% if act != activity[0] %}
             <td><form action='/delete/{{activity['id']}}/{{plan_id}}' method='get'>
-                  <input class='btn' type="submit" value="delete">
+                  <input class='btn btn-warning' type="submit" value="delete">
                </form>
             </td>
             {% else %}
             <td>
-              
+
             </td>
             {% endif %}
           </tr>
@@ -178,7 +178,7 @@
 
      </table>
      <form action='/final_plan/{{plan_id}}'>
-       <input type="submit" value="Plan Your Day" name="pyd">
+       <input class='btn btn-success' type="submit" value="Plan Your Day" name="pyd">
      </form>
      </div>
 
