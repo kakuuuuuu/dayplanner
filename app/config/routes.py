@@ -30,6 +30,7 @@ routes['POST']['/addactivity/<plan_id>'] = 'Places#addactivity'
 routes['/'] = 'Places#home'
 routes['/start'] = 'Places#index'
 routes['/logout'] = 'Places#logout'
+routes['GET']['/deleteplan/<plan_id>'] = 'Places#deleteplan'
 """
     You can add routes and specify their handlers as follows:
 

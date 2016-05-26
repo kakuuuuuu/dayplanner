@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="static/css/font-awesome.min.css">
     <link rel="stylesheet" href="static/css/form-elements.css">
     <link rel="stylesheet" href="static/css/style.css">
+    <script>
+      $(document).ready(function(){
+        $('#deletebutton').hide()
+        $('#delete').click(function(){
+          $('#deletebutton').toggle()
+        })
+      })
+    </script>
     <style>
       nav{
         background-color: #526578;
@@ -41,6 +49,7 @@
       <ul class="nav navbar-nav pull-right">
         <li class="active"><a class='white' href="#"><span class='glyphicon glyphicon-home'></span> Home</a></li>
         <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
+
         <li><a class='white' href="/user_info"><span class='glyphicon glyphicon-user'></span> Go Back</a></li>
       </ul>
     </nav>
@@ -73,6 +82,8 @@
       </tbody>
 
      </table>
+     <button class='btn' id ='delete'>Delete</button><br />
+     <a class='btn' id='deletebutton' href='/deleteplan/{{plan_id}}'>Are you sure?</a>
      <h3>In case you need directions...</h3>
 
     </div>

@@ -41,14 +41,28 @@ class Places(Controller):
     def day_plan(self, plan_id):
         if session['id']==None:
             return redirect('/')
+        user_id=self.models['Place'].check_plan(plan_id)
+        if user_id == False:
+            return redirect('/')
+        else:
+            if session['id']!=user_id[0]['users_id']:
+                return redirect('/')
+        # if session['id']!=user_id[0]['users_id']:
+        #     return redirect('/user_info')
         activity=self.models['Place'].get_activities(plan_id)
         return self.load_view('day_plan.html', activity=activity, key=key, plan_id=plan_id)
 
     def final_plan(self,plan_id):
         if session['id']==None:
             return redirect('/')
+        user_id=self.models['Place'].check_plan(plan_id)
+        if user_id == False:
+            return redirect('/')
+        else:
+            if session['id']!=user_id[0]['users_id']:
+                return redirect('/')
         activity=self.models['Place'].get_activities(plan_id)
-        return self.load_view('final_plan.html', activity=activity, key=key)
+        return self.load_view('final_plan.html', activity=activity, key=key, plan_id=plan_id)
 
     def create(self):
 
@@ -187,3 +201,6 @@ class Places(Controller):
         delete=self.models['Place'].delete_activity(info)
         url = '/day_plan/'+str(plan_id)
         return redirect(url)
+    def deleteplan(self, plan_id):
+        self.models['Place'].delete_plan(plan_id)
+        return redirect('/user_info')

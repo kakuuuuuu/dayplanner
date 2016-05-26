@@ -93,6 +93,14 @@ class Place(Model):
         }
         print "This is", data
         return self.db.query_db(query, data)
+    def check_plan(self, plan_id):
+        query = "SELECT users_id FROM plans WHERE id=:plan_id"
+        data = {'plan_id':plan_id}
+        user_id = self.db.query_db(query, data)
+        if len(user_id)==0:
+            return False
+        else:
+            return user_id
     def starting_location(self,info,plan_id):
         query="INSERT INTO activities(type, address, category,plan_id) VALUES('Starting Point', :address, :category,:plan_id)"
         data={'address':info['start_location'],'category':info['main_location'],'plan_id':plan_id}
@@ -121,7 +129,6 @@ class Place(Model):
         'plan_id':info['plan_id']
         }
         return self.db.query_db(query, data)
-
     def get_activities(self, plan_id):
         query="SELECT * FROM activities WHERE plan_id=:id"
         data = {'id':int(plan_id)}
@@ -131,6 +138,12 @@ class Place(Model):
         query="DELETE FROM activities WHERE id=:id"
         data={'id':info['id']}
         return self.db.query_db(query,data)
+    def delete_plan(self, plan_id):
+        query = "DELETE FROM activities WHERE plan_id=:plan_id"
+        data={'plan_id':plan_id}
+        self.db.query_db(query,data)
+        query = "DELETE FROM plans WHERE id=:plan_id"
+        self.db.query_db(query,data)
     def get_trips(self, user_id):
         query="SELECT * FROM plans WHERE users_id=:id"
         data ={'id':user_id}
