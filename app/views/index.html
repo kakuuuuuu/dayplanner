@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-
+        <link rel="stylesheet" href="static/css/style.css">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,6 +38,13 @@
     </head>
 
     <body>
+      <nav id='nav' class='navbar navbar-static-top navbar-light bg-faded'>
+        <a id='logo' class='navbar-brand bebas' href='#'>Trails</a>
+        <ul class="nav navbar-nav pull-right">
+          <li class="active"><a class='white' href="#"><span class='glyphicon glyphicon-home'></span> Home</a></li>
+        </ul>
+      </nav>
+      <div class='container'>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
@@ -138,7 +145,7 @@
         <!--[if lt IE 10]>
             <script src="assets/js/placeholder.js"></script>
         <![endif]-->
-
+      </div>
     </body>
 
 </html>

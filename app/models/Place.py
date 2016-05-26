@@ -93,7 +93,10 @@ class Place(Model):
         }
         print "This is", data
         return self.db.query_db(query, data)
-
+    def starting_location(self,info,plan_id):
+        query="INSERT INTO activities(type, address, category,plan_id) VALUES('Starting Point', :address, :category,:plan_id)"
+        data={'address':info['start_location'],'category':info['main_location'],'plan_id':plan_id}
+        self.db.query_db(query,data)
     def search_meal(self, info):
         url='https://maps.googleapis.com/maps/api/place/textsearch/json?query=Restaurants+near+'+info['location']+info['city']+info['category']+'&radius='+info['radius']+'&key='+key
         print url
@@ -119,14 +122,16 @@ class Place(Model):
         }
         return self.db.query_db(query, data)
 
-    def get_activities(self):
-        query="SELECT * FROM activities"
-        return self.db.query_db(query)
+    def get_activities(self, plan_id):
+        query="SELECT * FROM activities WHERE plan_id=:id"
+        data = {'id':int(plan_id)}
+        return self.db.query_db(query,data)
 
     def delete_activity(self, info):
         query="DELETE FROM activities WHERE id=:id"
         data={'id':info['id']}
         return self.db.query_db(query,data)
-    def get_trips(self):
-        query="SELECT * FROM plans"
-        return self.db.query_db(query)
+    def get_trips(self, user_id):
+        query="SELECT * FROM plans WHERE users_id=:id"
+        data ={'id':user_id}
+        return self.db.query_db(query, data)

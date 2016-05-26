@@ -22,11 +22,14 @@ routes['POST']['/login']='Places#login'
 routes['POST']['/options']='Places#options'
 routes['POST']['/meals']='Places#meals'
 routes['POST']['/activity']='Places#activity'
-routes['GET']['/delete/<id>']='Places#delete'
-routes['GET']['/final_plan']='Places#final_plan'
-routes['GET']['/day_plan']='Places#day_plan'
+routes['GET']['/delete/<id>/<plan_id>']='Places#delete'
+routes['GET']['/final_plan/<plan_id>']='Places#final_plan'
+routes['GET']['/day_plan/<plan_id>']='Places#day_plan'
 routes['GET']['/user_info'] = 'Places#user_info'
-routes['POST']['/addactivity'] = 'Places#addactivity'
+routes['POST']['/addactivity/<plan_id>'] = 'Places#addactivity'
+routes['/'] = 'Places#home'
+routes['/start'] = 'Places#index'
+routes['/logout'] = 'Places#logout'
 """
     You can add routes and specify their handlers as follows:
 

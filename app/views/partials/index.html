@@ -1,6 +1,6 @@
 <script>
 locations=[];
-var input = "{{session['city']}}"+"{{session['location']}}"
+var input = "{{session['address']}}, {{session['city']}}"
         var url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+input.toString()+'&key={{key}}'
         $.get(url, function(res){
           coordinates ={lat: res.results[0].geometry.location.lat, lng: res.results[0].geometry.location.lng}
@@ -9,7 +9,8 @@ var input = "{{session['city']}}"+"{{session['location']}}"
         // submit function will cause a refresh of the page which would defeat the point of AJAX
 </script>
 <div class='container col-md-7'>
-  <form action='/addactivity' method='post'>
+  <form id='add' action='/addactivity/{{session['plan_id']}}' method='post'>
+    <h3>Suggestions: </h3>
     <div class='form-group'>
       <select id='selection' class='form-control' name='activity'>
 {% for result in data['results'] %}
@@ -76,6 +77,12 @@ var input = "{{session['city']}}"+"{{session['location']}}"
     });
     }
   }
+  $('#add').submit(function(){
+    $.post('/addactivity/{{session['plan_id']}}', $(this).serialize(), function(res){
+      $('#table').html(res);
+    })
+    return false;
+  })
 </script>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap">

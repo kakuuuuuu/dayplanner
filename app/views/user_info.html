@@ -1,26 +1,34 @@
 <html>
   <head>
-    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+    <link rel="stylesheet" href="static/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   </head>
   <body>
+    <nav id='nav' class='navbar navbar-static-top navbar-light bg-faded'>
+      <a id='logo' class='navbar-brand bebas' href='#'>Trails</a>
+      <ul class="nav navbar-nav pull-right">
+        <li class="active"><a class='white' href="#"><span class='glyphicon glyphicon-home'></span> Home</a></li>
+        <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
+      </ul>
+    </nav>
   <div class="row">
 		<div class="col-md-7 col-md-offset-5" class="active">
     		<h2>Welcome {{session['name']}}!</h2>
     	</div>
    </div>
-   <div class="row">
+   <div class="container">
     	<div id='planner_box' class="col-md-4 col-md-offset-2" class="active">
-	    	<h3>Plan your Day</h3>
-	    	<form action='/options' method='post'>
-	    		<label>Location:</label><br><input type="text" name="location"><br>
-	    		<label>Start-time:</label><br><input type="time" name="start_time" ><br>
-	    		<label>End-time:</label><br><input type="time" name="end_time" ><br>
-	    		<label>Start-location:</label><br><input type="text" name="start_location" ><br>
-	    		<label>Transportation:</label><br><select type="text" name="transportation" >
-	    			<option value='2.5'>Walk</option>
-	    			<option value='50'>Automobile</option>
+
+	    	<form class='col-md-9' action='/options' method='post'>
+          <h3>Plan your Day</h3>
+	    		<label>City:</label><br><input class='form-control' type="text" name="location"><br>
+	    		<label>Start-time:</label><br><input class='form-control' type="time" name="start_time" ><br>
+	    		<label>End-time:</label><br><input class='form-control' type="time" name="end_time" ><br>
+	    		<label>Address<br>(The more specific the better):</label><br><input class='form-control' type="text" name="start_location" ><br>
+	    		<label>Transportation:</label><br><select class='form-control' type="text" name="transportation" >
+	    			<option value='20'>Walk</option>
+	    			<option value='300'>Automobile</option>
 	    		</select><br>
 	    		<input type="submit" value="Make a Plan">
 	    	</form>
@@ -29,9 +37,9 @@
 
 
     	<div id='past_trips' class="col-md-4 col-md-offset-1" class="active">
-    		<h4>Past Trips</h4>
+    		<h3>Past Trips</h3>
         {%for trip in trips%}
-    		  <a href='#'>{{trip['city']}}</a><br>
+    		  <a href='/final_plan/{{trip['id']}}'>{{trip['city']}}</a><br>
         {%endfor%}
 
     	</div>

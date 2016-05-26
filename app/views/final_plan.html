@@ -1,56 +1,19 @@
 <html>
   <head>
-    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+    <link rel="stylesheet" href="static/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script>
-    $(document).ready(function(){
-
-
-    var directionsDisplay:
-    var directionsService = new google.maps.DirectionsService();
-    var map;
-    var input = "{{session['city']}}"+"{{session['location']}}"
-    var url = 'https://maps.googleapis.com/maps/api/geocode/json?address='+input.toString()+'&key=AIzaSyAZ8ZZI5pB010-a960_c8TzSnurR98IR6k'
-    $.get(url, function(res){
-      coordinates ={lat: res.results[0].geometry.location.lat, lng: res.results[0].geometry.location.lng}
-    })
-    function initMap(){
-      directionsDisplay=new google.maps.DirectionsRenderer();
-      var start = new google.maps.LatLng(coordinates.lat, coordinates.lng);
-      var mapOptions = {
-        zoom:7,
-        center: start
-      }
-      map = new google.maps.Map(document.getElementById('map'), mapOptions);
-      directionsDisplay.setMap(map);
-    }
-    function calcRoute(){
-      var request={
-        origin: input,
-        destination: "{{activity[0]['address']}}",
-        waypoints:[
-          {% for activity in activity %}
-            {% if activity %}
-              {location: {{activity['address']}},
-              stopover: true}
-            {% endif %}
-          {% endfor %}
-        ]
-        travelMode: google.maps.TravelMode.DRIVING
-        }
-        unitSystem: UnitSystem.IMPERIAL
-      };
-      directionsService.route(request, function(result, status){
-        directionsDisplay.setDirections(result);
-      });
-    };
-    })
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap">
-    </script>
+    <script src= 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/css/form-elements.css">
+    <link rel="stylesheet" href="static/css/style.css">
     <style>
+      nav{
+        background-color: #526578;
+      }
+      .white{
+        color: white;
+      }
       html, body {
         height: 100%;
         margin: 0;
@@ -59,54 +22,7 @@
       #map {
         height: 100%;
       }
-      #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
-      #right-panel {
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
 
-      #right-panel select, #right-panel input {
-        font-size: 15px;
-      }
-
-      #right-panel select {
-        width: 100%;
-      }
-
-      #right-panel i {
-        font-size: 12px;
-      }
-      #right-panel {
-        height: 100%;
-        float: right;
-        width: 390px;
-        overflow: auto;
-      }
-      #map {
-        margin-right: 400px;
-      }
-      #floating-panel {
-        background: #fff;
-        padding: 5px;
-        font-size: 14px;
-        font-family: Arial;
-        border: 1px solid #ccc;
-        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
-        display: none;
-      }
       @media print {
         #map {
           height: 500px;
@@ -120,9 +36,17 @@
     </style>
   </head>
   <body>
+    <nav id='nav' class='navbar navbar-static-top navbar-light bg-faded'>
+      <a id='logo' class='navbar-brand bebas white' href='#'>Trails</a>
+      <ul class="nav navbar-nav pull-right">
+        <li class="active"><a class='white' href="#"><span class='glyphicon glyphicon-home'></span> Home</a></li>
+        <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
+        <li><a class='white' href="/user_info"><span class='glyphicon glyphicon-user'></span> Go Back</a></li>
+      </ul>
+    </nav>
+    <div class='container'>
 
-<h2>Day plan for Your location with weather widget</h2>
-<h2>Here you go {{session['name']}}!</h2>
+<h2>Here's your day {{session['name']}}!</h2>
    <div id="table" class="row">
      <div class="col-md-10 col-md-offset-1" class="active">
 
@@ -130,7 +54,7 @@
 
       <thead>
         <tr>
-          <td>Category</td>
+          <td>Name</td>
           <td>Your Preference</td>
           <td>Address</td>
         </tr>
@@ -138,25 +62,113 @@
 
       <tbody>
           {%for activity in activity%}
+          {% if activity %}
             <tr>
               <td>{{activity['type']}}</td>
               <td>{{activity['category']}}</td>
               <td>{{activity['address']}}</td>
             </tr>
+            {% endif %}
           {%endfor%}
       </tbody>
 
      </table>
-     <h3>Google Map with trail</h3>
+     <h3>In case you need directions...</h3>
 
     </div>
   </div>
     <div id='map' class='container'>
 
     </div>
+    <div id="floating-panel" class='container'>
+        <b>Start: </b>
+        <select class='form-control' id="start">
+          {% if activity[0] %}
+          <option value="{{activity[0]['address']}}">
+            Starting Location
+          </option>
+          {% endif %}
+        </select>
+        <b>End: </b>
+        <select class='form-control' id="end">
+          <option value = "{{activity[-1]['address']}}">
+            {% if activity[-1] %}
+            {{activity[-1]['category']}}
+            {% endif %}
+          </option>
+        </select>
+        <select class='form-control' multiple id="waypoints">
+          {% for act in activity %}
+          {% if act!=activity[-1] and act!=activity[0] %}
+            <option value="{{act['address']}}">{{act['category']}}</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+        <input class='btn' type="submit" id="submit">
+        </div>
+
+
+        <div id="map"></div>
+        <script>
+        function initMap() {
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 6,
+              center: {lat: 41.85, lng: -87.65},
+            });
+            directionsDisplay.setMap(map);
+
+            document.getElementById('submit').addEventListener('click', function() {
+              calculateAndDisplayRoute(directionsService, directionsDisplay);
+            });
+            }
+
+            function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+            var waypts = [];
+            var checkboxArray = document.getElementById('waypoints');
+            for (var i = 0; i < checkboxArray.length; i++) {
+              if (checkboxArray.options[i].selected) {
+                waypts.push({
+                  location: checkboxArray[i].value,
+                  stopover: true
+                });
+              }
+            }
+
+            directionsService.route({
+              origin: document.getElementById('start').value,
+              destination: document.getElementById('end').value,
+              waypoints: waypts,
+              optimizeWaypoints: true,
+              travelMode: google.maps.TravelMode.DRIVING
+            }, function(response, status) {
+              if (status === google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                var route = response.routes[0];
+                var summaryPanel = document.getElementById('directions-panel');
+                summaryPanel.innerHTML = '';
+                // For each route, display summary information.
+                for (var i = 0; i < route.legs.length; i++) {
+                  var routeSegment = i + 1;
+                  summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                      '</b><br>';
+                  summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                  summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                  summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                }
+              } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+            });
+            }
+        </script>
 
 
 
-
+      </div>
   </body>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap">
+  </script>
 </html>

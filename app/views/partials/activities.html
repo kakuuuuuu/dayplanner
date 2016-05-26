@@ -1,0 +1,12 @@
+{%for activity in activity%}
+  <tr>
+    <td>{{activity['type']}}</td>
+    <td>{{activity['category']}}</td>
+    <td>{{activity['address']}}</td>
+
+    <td><form action='/delete/{{activity['id']}}' method='get'>
+          <input type="submit" value="delete">
+       </form>
+    </td>
+  </tr>
+{%endfor%}

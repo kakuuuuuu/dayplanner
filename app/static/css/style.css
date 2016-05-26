@@ -1,0 +1,90 @@
+*{
+
+}
+@font-face {
+    font-family: rubik; src: url('../fonts/Rubik-Light.ttf');
+}
+@font-face{
+    font-family: Bebas;
+    src: url('../fonts/BebasNeue Bold.otf')
+}
+.bebas{
+  font-family: Bebas;
+}
+nav{
+  background-color: #526578;
+}
+
+.navbar-brand{
+  color: white;
+  font-style: Aloha;
+}
+#banner{
+  background-image: url('../images/banner.png');
+  background-size:cover;
+  height: 50%
+}
+.thumbnail{
+  height: 250px;
+}
+#nav{
+  margin-bottom: 0px;
+}
+
+.white{
+  color: white;
+}
+#logo{
+  font-style: Aloha;
+}
+@font-face {
+  font-family: antic;
+  src: url('fonts/Antic-Regular.tff');
+}
+@font-face{
+  font-family: Aloha;
+  src: url('fonts/Aloha.tff');
+}
+#header{
+  font-style: rubik;
+}
+.rubik{
+    font-family: rubik;
+}
+.aloha{
+  font-family: Aloha;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@media print {
+  #map {
+    height: 500px;
+    margin: 0;
+  }
+  #right-panel {
+    float: none;
+    width: auto;
+  }
+}
+
+#map {
+  height: 60%;
+  width: 60%;
+}
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}

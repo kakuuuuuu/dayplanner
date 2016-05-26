@@ -1,6 +1,6 @@
 <html>
   <head>
-    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+    <link rel="stylesheet" href="static/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src= 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
@@ -22,6 +22,7 @@
           })
           return false;
         })
+
       })
       // $(document).ready(function(){
       //   $('#activity').hide();
@@ -74,14 +75,17 @@
   </style>
   </head>
   <body>
+    <nav id='nav' class='navbar navbar-static-top navbar-light bg-faded'>
+      <a id='logo' class='navbar-brand bebas' href='#'>Trails</a>
+      <ul class="nav navbar-nav pull-right">
+        <li class="active"><a class='white' href="#"><span class='glyphicon glyphicon-home'></span> Home</a></li>
+        <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
+      </ul>
+    </nav>
   <div class="row">
 		<div class="col-md-7 col-md-offset-1" class="active">
     		<h2>This is a beautiful day(weather widget)</h2>
         <h3>What do you want to do today?</h3>
-        <form>
-          <input id ="add_meal" type="submit" value="Add a Meal">
-          <input id ="add_activity" type="submit" value="Add an Activity">
-        </form>
     	</div>
    </div>
    <div class="row">
@@ -105,7 +109,7 @@
          </select><br><br>
          Or write your choice:<br><input type="text" name="meal_alt"><br>
          <label>Duration:<br><input type="text" name="duration_meal"></label><br>
-         <input id="submit_meal" type="submit" value"Add a Meal">
+         <input id="submit_meal" class='btn' type="submit" value"Add a Meal">
        </form>
      </div>
      <div id ="activity"class="col-md-5 col-md-offset-1" class="active">
@@ -128,7 +132,7 @@
          </select><br><br>
          Or write your choice:<br><input type="text" name="activity_alt_alt"><br>
          <label>Duration:<br><input type="text" name="duration_activity"></label><br>
-         <input id="submit_activity" type="submit" value"Add an Activity">
+         <input id="submit_activity" class='btn' type="submit" value"Add an Activity">
        </form>
      </div>
    </div>
@@ -138,8 +142,8 @@
    <div id='map' class='container'>
 
    </div>
-   <div id="table" class="row">
-     <div class="col-md-10 col-md-offset-1" class="active">
+   <div class="row container">
+     <div class="col-md-12"class="active">
 
      <table class="table table-bordered table-striped">
 
@@ -152,23 +156,28 @@
         </tr>
       </thead>
 
-      <tbody>
-          {%for activity in activity%}
-            <tr>
-              <td>{{activity['type']}}</td>
-              <td>{{activity['category']}}</td>
-              <td>{{activity['address']}}</td>
-
-              <td><form action='/delete/{{activity['id']}}' method='get'>
-                    <input type="submit" value="delete">
-                 </form>
-              </td>
-            </tr>
-          {%endfor%}
+      <tbody id="table">
+        {%for act in activity%}
+          <tr>
+            <td>{{act['type']}}</td>
+            <td>{{act['category']}}</td>
+            <td>{{act['address']}}</td>
+            {% if act != activity[0] %}
+            <td><form action='/delete/{{activity['id']}}/{{plan_id}}' method='get'>
+                  <input class='btn' type="submit" value="delete">
+               </form>
+            </td>
+            {% else %}
+            <td>
+              
+            </td>
+            {% endif %}
+          </tr>
+        {%endfor%}
       </tbody>
 
      </table>
-     <form action='/final_plan'>
+     <form action='/final_plan/{{plan_id}}'>
        <input type="submit" value="Plan Your Day" name="pyd">
      </form>
      </div>
