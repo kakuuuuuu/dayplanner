@@ -49,6 +49,9 @@ class Places(Controller):
             if session['id']!=user_id[0]['users_id']:
                 return redirect('/')
         start = self.models['Place'].get_activities(plan_id)
+        if len(start)<1:
+            self.models['Place'].delete_plan(plan_id)
+            return redirect('/')
         city = start[0]['category']
         info={'location':city}
         weather_info=self.models['Place'].search_weather(info)
@@ -177,7 +180,11 @@ class Places(Controller):
         session['city']=request.form['location']
         session['address']=request.form['start_location']
         session['plan_id']=self.models['Place'].insert_planning_data(info)
-        self.models['Place'].starting_location(info,session['plan_id'])
+        check = self.models['Place'].starting_location(info,session['plan_id'])
+        if check['status']==False:
+            flash(check['error'])
+            self.models['Place'].delete_plan(session['plan_id'])
+            return redirect('/user_info')
         url='/day_plan/'+str(session['plan_id'])
         return redirect(url)
 

@@ -114,10 +114,15 @@ class Place(Model):
         response = urllib.urlopen(url)
         jsonRaw = response.read()
         jsonData = json.loads(jsonRaw)
-        if len(jsonData)>0:
+        if len(jsonData['results'])>0:
+            print jsonData
             results = jsonData['results'][0]['formatted_address']
             data={'address':results,'category':info['main_location'],'plan_id':plan_id}
             self.db.query_db(query,data)
+            return {'status':True}
+        else:
+            error = 'No match, try again'
+            return {'status':False, 'error':error};
     def search_meal(self, info):
         url='https://maps.googleapis.com/maps/api/place/textsearch/json?query=Restaurants+near+'+info['location']+info['city']+info['category']+'&radius='+info['radius']+'&key='+key
         response = urllib.urlopen(url)
