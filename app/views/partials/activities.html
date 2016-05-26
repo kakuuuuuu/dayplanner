@@ -1,8 +1,8 @@
-{%for activity in activity%}
+{%for act in activity%}
   <tr>
-    <td>{{activity['type']}}</td>
-    <td>{{activity['category']}}</td>
-    <td>{{activity['address']}}</td>
+    <td>{{act['type']}}</td>
+    <td>{{act['category']}}</td>
+    <td>{{act['address']}}</td>
 
     {% if act != activity[0] %}
     <td><form action='/delete/{{activity['id']}}/{{plan_id}}' method='get'>

@@ -188,48 +188,48 @@ class Places(Controller):
         url='/day_plan/'+str(session['plan_id'])
         return redirect(url)
 
-    def meals(self):
+    def meals(self, plan_id):
         print "day_plan is going on"
         if request.form['meal'] == '-':
             meal = request.form['meal_alt']
         else:
             meal = request.form['meal']
-
+        start = self.models['Place'].get_activities(plan_id)[0]
         infos={
             'type':'Food',
             'category':meal,
             'price':request.form['price'],
             'duration':request.form['duration_meal'],
-            'plan_id':session['plan_id'],
-            'city':session['city'],
-            'location':session['address'],
+            'plan_id':plan_id,
+            'city':start['category'],
+            'location':start['address'],
             'radius':session['radius']
             }
         session['type']=infos['type']
         meal_choices=self.models['Place'].search_meal(infos)
 
-        return self.load_view('partials/index.html', data=meal_choices)
+        return self.load_view('partials/index.html', data=meal_choices, plan_id=plan_id, start=start)
 
-    def activity(self):
+    def activity(self, plan_id):
         if not request.form['activity']=="-":
             activity = request.form['activity']
         elif not request.form['activity_alt']=="-":
             activity = request.form['activity_alt']
         else:
             activity = request.form['activity_alt_alt']
-
+        start = self.models['Place'].get_activities(plan_id)[0]
         activity_info={
             'type':'Activity',
             'category':activity,
             'duration':request.form['duration_activity'],
-            'plan_id':session['plan_id'],
-            'city':session['city'],
-            'location':session['address'],
+            'plan_id':plan_id,
+            'city':start['category'],
+            'location':start['address'],
             'radius':session['radius']
         }
         session['type']=activity_info['type']
         act=self.models['Place'].search_activity(activity_info)
-        return self.load_view('partials/index.html', data=act)
+        return self.load_view('partials/index.html', data=act, plan_id=plan_id, start=start)
     def addactivity(self,plan_id):
         activity = request.form['activity'].split("+")
         name=activity[0]
@@ -238,7 +238,7 @@ class Places(Controller):
             'name': name,
             'address': address,
             'type': session['type'],
-            'plan_id':session['plan_id']
+            'plan_id':plan_id
         }
         self.models['Place'].add_activity(info)
         activity=self.models['Place'].get_activities(plan_id)

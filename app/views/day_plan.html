@@ -10,14 +10,14 @@
       $(document).ready(function(){
         $('#mealform').submit(function(){
 
-          $.post('/meals', $(this).serialize(), function(res){
+          $.post('/meals/{{plan_id}}', $(this).serialize(), function(res){
             $('#results').html(res);
           })
           return false;
         })
         $('#activityform').submit(function(){
 
-          $.post('/activity', $(this).serialize(), function(res){
+          $.post('/activity/{{plan_id}}', $(this).serialize(), function(res){
             $('#results').html(res);
           })
           return false;
@@ -101,7 +101,6 @@
         <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
       </ul>
     </nav>
-  <div class="row">
 		<div id='weather' class="jumbotron text-center" class="active">
       <div id='transbox' class='container'>
 
@@ -116,15 +115,17 @@
      </div>
 
     	</div>
-   </div>
-   <div class="row">
+   <div class="container">
      <div class='container'>
-       <h3>What do you want to do today?</h3>
+       <h2>What do you want to do today?</h3>
      </div>
-     <div id= "meal" class="col-md-5 col-md-offset-1" class="active">
-      <h4>Looking for food?</h4>
-       <form id='mealform' action='/meals' method='post'>
-         <select name='meal'>
+
+     <div id= "meal" class="col-md-6" class="active">
+
+       <form id='mealform' class='col-md-7' action='/meals/{{plan_id}}' method='post'>
+         <h4>Looking for food?</h4>
+        <h6>What kind?:</h6>
+         <select class='form-control' name='meal'>
            <option>-</option>
            <option>Chinese</option>
            <option>Korean</option>
@@ -134,28 +135,30 @@
            <option>American</option>
            <option>Breakfast</option>
          </select>
-         <select name='price'>
+         <h6>Price Range:</h6>
+         <select class='form-control' name='price'>
            <option>$</option>
            <option>$$</option>
            <option>$$$</option>
            <option>$$$$</option>
          </select><br><br>
-         Or write your choice:<br><input type="text" name="meal_alt"><br>
-         <label>Duration:<br><input type="text" name="duration_meal"></label><br>
+         <label>Feeling like something else?:</label><br><input class='form-control' type="text" name="meal_alt"><br>
+         <label>Duration:<br><input class='form-control' type="text" name="duration_meal"></label><br>
          <input id="submit_meal" class='btn btn-info' type="submit" value="Search">
        </form>
      </div>
-     <div id ="activity"class="col-md-5 col-md-offset-1" class="active">
-      <h4>Looking for something to do?</h4>
-       <form id='activityform' action='/activity' method='post'>
+     <div id ="activity"class="col-md-6" class="active">
+
+       <form id='activityform' class='col-md-7' action='/activity/{{plan_id}}' method='post'>
+         <h4>Looking for something to do?</h4>
         <h6>Indoors</h6>
-         <select name='activity'>
+         <select class='form-control' name='activity'>
            <option>-</option>
            <option>Museums</option>
            <option>sports</option>
          </select>
          <h6>Outdoors</h6>
-          <select name='activity_alt'>
+          <select class='form-control' name='activity_alt'>
              <option>-</option>
              <option>Sight Seeing</option>
              <option>Water activities</option>
@@ -163,8 +166,8 @@
              <option>Parks</option>
              <option>sports</option>
          </select><br><br>
-         Or write your choice:<br><input type="text" name="activity_alt_alt"><br>
-         <label>Duration:<br><input type="text" name="duration_activity"></label><br>
+         <label>Feeling like something else?:</label><br><input class='form-control' type="text" name="activity_alt_alt"><br>
+         <label>Duration:<br><input class='form-control' type="text" name="duration_activity"></label><br>
          <input id="submit_activity" class='btn btn-info' type="submit" value="Search">
        </form>
      </div>
@@ -185,7 +188,7 @@
           <td>Category</td>
           <td>Your Preference</td>
           <td>Address</td>
-          <td>In Case You dont Like</td>
+          <td>Changed your mind?</td>
         </tr>
       </thead>
 
