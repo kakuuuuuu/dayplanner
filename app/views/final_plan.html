@@ -109,7 +109,7 @@
         </select>
         <b>End: </b>
         <select class='form-control' id="end">
-          <option value = "{{activity[-1]['address']}}">
+          <option value = "{{activity[-1]['address']}}, {{activity[-1]['category']}}">
             {% if activity[-1] %}
             {{activity[-1]['category']}}
             {% endif %}
