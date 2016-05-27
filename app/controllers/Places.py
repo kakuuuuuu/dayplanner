@@ -114,13 +114,11 @@ class Places(Controller):
              "password":request.form['form-password'],
              "pw_confirmation" : request.form['form-conf-password']
         }
-        if info['name']<2:
-            errors.append('Name must be longer than 2 characters')
 
         create_status = self.models['Place'].create_user(info)
         if create_status['status'] == True:
             session['id'] = create_status['user']['id']
-
+            session['name'] = create_status['user']['name']
             return redirect('/user_info')
         else:
 
