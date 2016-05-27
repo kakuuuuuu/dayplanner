@@ -16,16 +16,26 @@
       })
     </script>
     <style>
+    *{
+
+    }
+    @font-face{
+        font-family: Bebas;
+        src: url('../static/fonts/BebasNeue Bold.otf')
+    }
+    .bebas{
+      font-family: Bebas;
+    }
       nav{
         background-color: #526578;
+        width: 100%;
+      }
+      #nav{
+        margin-bottom: 0px;
+        width: 100%;
       }
       .white{
         color: white;
-      }
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
       }
       #map {
         height: 50%;
@@ -61,12 +71,10 @@
       <a id='logo' class='navbar-brand bebas white' href='#'>Get Out</a>
       <ul class="nav navbar-nav pull-right">
         <li class="active"><a class='white' href="/user_info"><span class='glyphicon glyphicon-home'></span> Home</a></li>
+        <li><a class='white' href="/user_info"><span class='glyphicon glyphicon-share-alt'></span> Go Back</a></li>
         <li><a class='white' href="/logout"><span class='glyphicon glyphicon-user'></span> Logout</a></li>
-
-        <li><a class='white' href="/user_info"><span class='glyphicon glyphicon-arrow-left'></span> Go Back</a></li>
       </ul>
     </nav>
-    <div class="row">
   		<div id='weather' class="jumbotron text-center" class="active">
         <div id='transbox' class='container'>
 
@@ -80,7 +88,6 @@
 
        </div>
 
-      	</div>
      </div>
     <div class='container'>
 
@@ -112,21 +119,14 @@
       </tbody>
 
      </table>
-     <div class='container'>
-       <div class='container col-md-2'>
-         <form action='/day_plan/{{plan_id}}' method='get'>
-            <input class='btn btn-warning' type='submit' value='Edit'>  <span class='glyphicon glyphicon-pencil'></span>
-         </form>
-       </div>
-       <div class='container col-md-2'>
-         <button class='btn btn-danger' id ='delete'>Delete</button />  <span class='glyphicon glyphicon-remove'></span>
-         <form id='deletebutton' action='/deleteplan/{{plan_id}}' method='get'>
-           <input class='btn' type='submit' value='Are you sure?' />
-         </form>
-       </div>
-     </div>
+     <button class='btn btn-warning'><a class='white' href='/day_plan/{{plan_id}}'><span class='glyphicon glyphicon-edit'></span> Edit</a></button>
+     <button class='btn btn-danger' id ='delete'><span class='glyphicon glyphicon-remove'></span> Delete</button />
+       <form id='deletebutton' action='/deleteplan/{{plan_id}}' method='get'>
+         <input class='btn' type='submit' value='Are you sure?' />
+       </form>
 
-     <h3>In case you need directions...</h3>
+     <h3><span class='glyphicon glyphicon-road'></span> In case you need directions...</h3>
+     <h5>Return of results depends on given address</h5>
 
 
     </div>
@@ -135,7 +135,7 @@
 
     </div>
     <div id="floating-panel" class='container'>
-        <b>Start: </b>
+        <b><h4>Start:</h4></b>
         <select class='form-control' id="start">
           {% if activity[0] %}
           <option value="{{activity[0]['address']}}">
@@ -143,15 +143,15 @@
           </option>
           {% endif %}
         </select>
-        <b>End: </b>
+        <b><h4>End:</h4></b>
         <select class='form-control' id="end">
           <option value = "{{activity[-1]['address']}}, {{activity[-1]['category']}}">
             {% if activity[-1] %}
             {{activity[-1]['category']}}
             {% endif %}
           </option>
-        </select>
-        Highlight to add waypoints!
+        </select />
+        <b><h4>Highlight to add waypoints!</h4></b />
         <select class='form-control' multiple id="waypoints">
           {% for act in activity %}
           {% if act!=activity[-1] and act!=activity[0] %}

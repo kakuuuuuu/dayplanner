@@ -10,7 +10,7 @@ var input = "{{start['category']}}, {{start['address']}}"
 </script>
 <div class='container col-md-7'>
   <form id='add' action='/addactivity/{{plan_id}}' method='post'>
-    <h3>Suggestions: </h3>
+    <h3><span class='glyphicon glyphicon-map-marker'></span> Suggestions: </h3>
     <div class='form-group'>
       <select id='selection' class='form-control' name='activity'>
 {% for result in data['results'] %}

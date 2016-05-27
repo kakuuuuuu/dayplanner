@@ -28,7 +28,7 @@
     	<div id='planner_box' class="col-md-4 col-md-offset-2" class="active">
 
 	    	<form class='col-md-9' action='/options' method='post'>
-          <h3>Plan your Day</h3>
+          <h3><span class='glyphicon glyphicon-plane'></span> Plan your Day</h3>
 	    		<label>City:</label><br><input class='form-control' type="text" name="location"><br>
 	    		<label>Start-time:</label><br><input class='form-control' type="time" name="start_time" ><br>
 	    		<label>End-time:</label><br><input class='form-control' type="time" name="end_time" ><br>
@@ -37,17 +37,22 @@
 	    			<option value='20'>Walk</option>
 	    			<option value='300'>Automobile</option>
 	    		</select><br>
-	    		<input type="submit" value="Make a Plan">
+	    		<input class='btn btn-success' type="submit" value="Make a Plan">
 	    	</form>
 
     	</div>
 
 
     	<div id='past_trips' class="col-md-4 col-md-offset-1" class="active">
-    		<h3>Past Trips</h3>
-        {%for trip in trips%}
-    		  <a href='/final_plan/{{trip['id']}}'>{{trip['city']}}</a><br>
-        {%endfor%}
+    		<h3><span class='glyphicon glyphicon-cloud'></span> Past Trips</h3>
+        <ul class='list-group'>
+          {%for trip in trips%}
+      		  <li class='list-group-item'>
+              <a href='/final_plan/{{trip['id']}}'><span class='glyphicon glyphicon-chevron-right'></span> {{trip['city']}}</a>
+            </li>
+          {%endfor%}
+        </ul>
+
 
     	</div>
     </div>
